@@ -1,0 +1,4 @@
+[
+{"timestamp_utc":"2026-11-18T23:55:05Z","local_date":"2026-11-18","local_hour":15,"weekday":"Wed","direction":"A","duration_seconds":14180,"static_duration_seconds":13755,"distance_meters":303372},
+{"timestamp_utc":"2026-11-18T23:55:06Z","local_date":"2026-11-18","local_hour":15,"weekday":"Wed","direction":"B","duration_seconds":13381,"static_duration_seconds":13410,"distance_meters":304281}
+]
