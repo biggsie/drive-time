@@ -1,0 +1,58 @@
+name: Collect drive times
+
+on:
+  schedule:
+    # Hourly at :17 UTC. Top-of-hour cron runs are the most delayed on GitHub.
+    - cron: "17 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: collect
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Query Google Routes API
+        env:
+          GOOGLE_MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
+        run: python scripts/collect.py
+
+      - name: Commit readings
+        run: |
+          git config user.name "drive-time-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git commit -m "data: readings $(date -u +%Y-%m-%dT%H:%MZ)"
+          for i in 1 2 3 4; do
+            git push && exit 0
+            sleep $((i * 5))
+            git pull --rebase
+          done
+          exit 1
+
+      # Belt and braces for GitHub's 60-day inactivity rule on public repos: the hourly
+      # data commits should count as activity, and re-enabling the workflow via the API
+      # is a cheap extra nudge. The display's stale-data warning is the final backstop.
+      - name: Keep schedule alive
+        if: always()
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X PUT "repos/${{ github.repository }}/actions/workflows/collect.yml/enable"

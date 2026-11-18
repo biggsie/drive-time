@@ -1,0 +1,37 @@
+{
+  "routes": {
+    "A": {
+      "label": "Mill Valley → Truckee",
+      "short_label": "To Truckee",
+      "origin": "Mill Valley, CA",
+      "destination": "Truckee, CA"
+    },
+    "B": {
+      "label": "Truckee → Mill Valley",
+      "short_label": "To Mill Valley",
+      "origin": "Truckee, CA",
+      "destination": "Mill Valley, CA"
+    }
+  },
+  "collection": {
+    "forecast_offsets_hours": [0, 1, 2, 3],
+    "routing_preference": "TRAFFIC_AWARE_OPTIMAL",
+    "traffic_model": "BEST_GUESS",
+    "log_forecasts": true
+  },
+  "display": {
+    "timezone": "America/Los_Angeles",
+    "default_direction": "A",
+    "default_window_hours": 6,
+    "max_window_hours": 48,
+    "y_mode": "duration",
+    "snap_back_to_now_seconds": 90
+  },
+  "refresh": {
+    "latest_minutes": 5,
+    "history_minutes": 30,
+    "redraw_seconds": 30,
+    "full_reload_hours": 6,
+    "stale_after_hours": 3
+  }
+}

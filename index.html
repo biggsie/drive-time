@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Tahoe Drive">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <title>Tahoe Drive Time</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="dir-toggle" role="group" aria-label="Direction">
+      <button type="button" data-dir="A" aria-pressed="true"><span class="dir-label">A</span></button>
+      <button type="button" data-dir="B" aria-pressed="false"><span class="dir-label">B</span></button>
+    </div>
+    <div id="status" class="status">Loading…</div>
+  </header>
+
+  <div id="banner" class="banner" role="alert" hidden>
+    <svg class="banner-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 2 21h20L12 3Zm0 6v6m0 2.5v.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span id="banner-text"></span>
+  </div>
+
+  <section class="hero">
+    <div class="stat">
+      <div class="stat-label">Leave now</div>
+      <div id="now-value" class="stat-value">—</div>
+      <div id="now-caption" class="stat-caption"></div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Best time to leave</div>
+      <div id="best-value" class="stat-value">—</div>
+      <div id="best-caption" class="stat-caption"></div>
+    </div>
+  </section>
+
+  <main class="chart-wrap">
+    <svg id="chart" role="img" aria-label="Drive time by departure time. Solid line: observed. Dashed line: Google forecast."></svg>
+  </main>
+
+  <footer class="bottom">
+    <div class="legend" aria-hidden="true">
+      <span class="key"><svg width="36" height="10"><line x1="0" y1="5" x2="36" y2="5" class="observed"/></svg>Observed</span>
+      <span class="key"><svg width="36" height="10"><line x1="0" y1="5" x2="36" y2="5" class="forecast"/></svg>Google forecast</span>
+      <span class="key"><svg width="36" height="10"><line x1="0" y1="5" x2="36" y2="5" class="static-line"/></svg>No traffic</span>
+    </div>
+    <div class="controls">
+      <button type="button" id="now-btn" class="pill" hidden>Back to now</button>
+      <div class="seg" role="group" aria-label="Time window">
+        <button type="button" class="pill" data-window="6">6h</button>
+        <button type="button" class="pill" data-window="24">24h</button>
+        <button type="button" class="pill" data-window="48">48h</button>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
