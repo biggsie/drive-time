@@ -1,5 +1,5 @@
 import { loadConfig, loadLatest, loadHistory, monthsBetween, observedSeries, forecastSeries } from './data.js';
-import { renderChart, fmtDuration, bestInView } from './chart.js';
+import { renderChart, fmtDuration, bestInView, freeFlowSeconds } from './chart.js';
 
 const HOUR = 3600e3;
 const $ = sel => document.querySelector(sel);
@@ -70,12 +70,13 @@ function render() {
 
   // Hero: leave-now duration, and the best departure in the forecast horizon.
   const nowPoint = forecast.find(p => p.offset === 0);
+  const freeFlow = freeFlowSeconds(forecast, observed);
   const fresh = latest?.generated_at_utc ? now - new Date(latest.generated_at_utc) : Infinity;
   if (nowPoint) {
     $('#now-value').textContent = fmtDuration(nowPoint.d);
     $('#now-value').classList.remove('empty-value');
     $('#now-caption').textContent = `Leaving at ${time.format(nowPoint.t)}` +
-      (nowPoint.s ? ` · ${signed(nowPoint.d - nowPoint.s)} vs no traffic` : '');
+      (freeFlow ? ` · ${signed(nowPoint.d - freeFlow)} vs no traffic` : '');
   } else {
     $('#now-value').textContent = '–';
     $('#now-value').classList.add('empty-value');

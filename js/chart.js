@@ -42,6 +42,15 @@ function hourStep(windowHours) {
   return 6;
 }
 
+// Google's staticDuration varies by departure time (it can sit well above the
+// free-flow time), so the "no traffic" reference is the lowest one in the latest
+// forecast set, falling back to the most recent observed value.
+export function freeFlowSeconds(forecast, observed) {
+  const fs = forecast.map(p => p.s).filter(Number.isFinite);
+  if (fs.length) return Math.min(...fs);
+  return [...observed].reverse().find(p => Number.isFinite(p.s))?.s ?? null;
+}
+
 // Pick the best (shortest) departure in view. Future departures (forecast, incl. "now")
 // win because they are actionable; if none are in view, fall back to the lowest
 // observed point and label it as past.
@@ -61,7 +70,7 @@ export function renderChart(svg, opts) {
   svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
 
   const fs = Math.max(16, Math.min(24, width / 55));
-  const m = { top: fs * 2.6, right: fs * 1.2, bottom: fs * 3.2, left: fs * 4.2 };
+  const m = { top: fs * 2.6, right: fs * 1.6, bottom: fs * 3.2, left: fs * 4.2 };
   const iw = width - m.left - m.right, ih = height - m.top - m.bottom;
   const x0 = new Date(center - (windowHours / 2) * HOUR), x1 = new Date(+center + (windowHours / 2) * HOUR);
   const xs = t => m.left + ((t - x0) / (x1 - x0)) * iw;
@@ -71,7 +80,7 @@ export function renderChart(svg, opts) {
   const near = p => p.t >= x0 - pad && p.t <= +x1 + pad;
   const visObs = observed.filter(near), visFc = forecast.filter(near);
   const vals = [...visObs, ...visFc].map(mode.value);
-  const staticRef = [...forecast, ...observed].reverse().find(p => p.s)?.s ?? null;
+  const staticRef = freeFlowSeconds(forecast, observed);
   if (staticRef && yMode === 'duration') vals.push(staticRef / 60);
 
   const g = el('g', {}, svg);
@@ -134,12 +143,15 @@ export function renderChart(svg, opts) {
   if (staticRef && yMode === 'duration') {
     const y = ys(staticRef / 60);
     el('line', { x1: m.left, x2: m.left + iw, y1: y, y2: y, class: 'static-line' }, g);
-    const lab = el('text', { x: m.left + iw - 4, y: y - fs * 0.45, class: 'static-label', 'text-anchor': 'end', 'font-size': fs * 0.8 }, g);
+    // Left edge: the best-departure label lives on the right (future) side.
+    const lab = el('text', { x: m.left + 6, y: y - fs * 0.45, class: 'static-label', 'text-anchor': 'start', 'font-size': fs * 0.8 }, g);
     lab.textContent = `No traffic ${fmtDuration(staticRef)}`;
   }
 
   const clip = el('clipPath', { id: 'plot-clip' }, el('defs', {}, svg));
-  el('rect', { x: m.left, y: m.top - fs, width: iw, height: ih + fs * 2 }, clip);
+  // Slightly wider than the plot so markers on the window edge (e.g. the +3h
+  // forecast when "now" is centred) aren't cut in half.
+  el('rect', { x: m.left - 16, y: m.top - fs, width: iw + 32, height: ih + fs * 2 }, clip);
   const plot = el('g', { 'clip-path': 'url(#plot-clip)' }, g);
   const path = pts => pts.map((p, i) => `${i ? 'L' : 'M'}${xs(p.t).toFixed(1)},${ys(mode.value(p)).toFixed(1)}`).join('');
 
@@ -161,9 +173,12 @@ export function renderChart(svg, opts) {
     el('circle', { cx: x, cy: y, r: 13, class: 'best-ring' }, plot);
     el('circle', { cx: x, cy: y, r: 6, class: 'best-dot' }, plot);
     const above = y - m.top > fs * 2.2;
+    // Anchor the label so it never runs off either edge of the plot.
+    const anchor = x > m.left + iw * 0.8 ? 'end' : x < m.left + iw * 0.2 ? 'start' : 'middle';
+    const lx = anchor === 'end' ? x + 14 : anchor === 'start' ? x - 14 : x;
     const lab = el('text', {
-      x: Math.min(Math.max(x, m.left + 80), m.left + iw - 80), y: above ? y - fs * 1.1 : y + fs * 1.9,
-      class: 'best-label', 'text-anchor': 'middle', 'font-size': fs,
+      x: lx, y: above ? y - fs * 1.1 : y + fs * 1.9,
+      class: 'best-label', 'text-anchor': anchor, 'font-size': fs,
     }, g);
     lab.textContent = `${best.isFuture ? 'Best' : 'Lowest'} ${time.format(p.t)} · ${fmtDuration(p.d)}`;
   }
