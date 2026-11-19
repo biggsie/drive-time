@@ -6,5 +6,13 @@
 {"requested_at_utc":"2026-11-18T23:55:06Z","direction":"B","offset_hours":0,"departure_time_utc":"2026-11-18T23:55:06Z","duration_seconds":13381,"static_duration_seconds":13410,"distance_meters":304281},
 {"requested_at_utc":"2026-11-18T23:55:06Z","direction":"B","offset_hours":1,"departure_time_utc":"2026-11-19T00:55:06Z","duration_seconds":12920,"static_duration_seconds":11300,"distance_meters":303211},
 {"requested_at_utc":"2026-11-18T23:55:07Z","direction":"B","offset_hours":2,"departure_time_utc":"2026-11-19T01:55:07Z","duration_seconds":11261,"static_duration_seconds":11145,"distance_meters":303240},
-{"requested_at_utc":"2026-11-18T23:55:07Z","direction":"B","offset_hours":3,"departure_time_utc":"2026-11-19T02:55:07Z","duration_seconds":11003,"static_duration_seconds":11133,"distance_meters":303241}
+{"requested_at_utc":"2026-11-18T23:55:07Z","direction":"B","offset_hours":3,"departure_time_utc":"2026-11-19T02:55:07Z","duration_seconds":11003,"static_duration_seconds":11133,"distance_meters":303241},
+{"requested_at_utc":"2026-11-19T07:36:18Z","direction":"A","offset_hours":0,"departure_time_utc":"2026-11-19T07:36:18Z","duration_seconds":11863,"static_duration_seconds":11463,"distance_meters":304730},
+{"requested_at_utc":"2026-11-19T07:36:19Z","direction":"A","offset_hours":1,"departure_time_utc":"2026-11-19T08:36:19Z","duration_seconds":11898,"static_duration_seconds":11178,"distance_meters":304731},
+{"requested_at_utc":"2026-11-19T07:36:19Z","direction":"A","offset_hours":2,"departure_time_utc":"2026-11-19T09:36:19Z","duration_seconds":11698,"static_duration_seconds":11178,"distance_meters":304731},
+{"requested_at_utc":"2026-11-19T07:36:19Z","direction":"A","offset_hours":3,"departure_time_utc":"2026-11-19T10:36:19Z","duration_seconds":11462,"static_duration_seconds":11178,"distance_meters":304731},
+{"requested_at_utc":"2026-11-19T07:36:19Z","direction":"B","offset_hours":0,"departure_time_utc":"2026-11-19T07:36:19Z","duration_seconds":12826,"static_duration_seconds":11466,"distance_meters":303002},
+{"requested_at_utc":"2026-11-19T07:36:19Z","direction":"B","offset_hours":1,"departure_time_utc":"2026-11-19T08:36:19Z","duration_seconds":12615,"static_duration_seconds":11466,"distance_meters":303002},
+{"requested_at_utc":"2026-11-19T07:36:20Z","direction":"B","offset_hours":2,"departure_time_utc":"2026-11-19T09:36:20Z","duration_seconds":11524,"static_duration_seconds":10859,"distance_meters":302562},
+{"requested_at_utc":"2026-11-19T07:36:20Z","direction":"B","offset_hours":3,"departure_time_utc":"2026-11-19T10:36:20Z","duration_seconds":11247,"static_duration_seconds":10859,"distance_meters":302562}
 ]
