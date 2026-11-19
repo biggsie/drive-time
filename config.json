@@ -3,18 +3,27 @@
     "A": {
       "label": "Mill Valley → Truckee",
       "short_label": "To Truckee",
-      "origin": "Mill Valley, CA",
-      "destination": "Truckee, CA"
+      "origin": "15 Shoreline Hwy, Mill Valley, CA 94941",
+      "destination": "11357 Donner Pass Rd, Truckee, CA 96161",
+      "origin_name": "Buckeye Roadhouse",
+      "destination_name": "New Moon Natural Foods"
     },
     "B": {
       "label": "Truckee → Mill Valley",
       "short_label": "To Mill Valley",
-      "origin": "Truckee, CA",
-      "destination": "Mill Valley, CA"
+      "origin": "11357 Donner Pass Rd, Truckee, CA 96161",
+      "destination": "15 Shoreline Hwy, Mill Valley, CA 94941",
+      "origin_name": "New Moon Natural Foods",
+      "destination_name": "Buckeye Roadhouse"
     }
   },
   "collection": {
-    "forecast_offsets_hours": [0, 1, 2, 3],
+    "forecast_offsets_hours": [
+      0,
+      1,
+      2,
+      3
+    ],
     "routing_preference": "TRAFFIC_AWARE_OPTIMAL",
     "traffic_model": "BEST_GUESS",
     "log_forecasts": true
