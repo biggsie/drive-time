@@ -73,6 +73,40 @@ export function forecastSeries(latest, direction) {
     .sort((a, b) => a.t - b.t);
 }
 
+// Pacific (or any zone's) UTC offset in minutes at instant d.
+function tzOffsetMinutes(d, timeZone) {
+  const parts = Object.fromEntries(new Intl.DateTimeFormat('en-US', {
+    timeZone, hourCycle: 'h23', year: 'numeric', month: '2-digit', day: '2-digit',
+    hour: '2-digit', minute: '2-digit', second: '2-digit',
+  }).formatToParts(d).map(x => [x.type, x.value]));
+  const asUTC = Date.UTC(+parts.year, +parts.month - 1, +parts.day, +parts.hour % 24, +parts.minute, +parts.second);
+  return Math.round((asUTC - d.getTime()) / 60e3);
+}
+
+// Shift an instant forward by whole local days, keeping the local clock time
+// (so a 4 PM reading last Sunday lands on 4 PM this Sunday, across DST changes too).
+export function shiftLocalDays(t, days, timeZone) {
+  const naive = new Date(t.getTime() + days * 24 * HOUR);
+  const delta = tzOffsetMinutes(t, timeZone) - tzOffsetMinutes(naive, timeZone);
+  return new Date(naive.getTime() + delta * 60e3);
+}
+
+// Same-day-last-week comparison: observed points from `daysBack` days ago, moved onto
+// today's timeline. Each point keeps its real reading time in `orig`.
+export function comparisonSeries(observed, daysBack, timeZone) {
+  return observed.map(p => ({ ...p, orig: p.t, t: shiftLocalDays(p.t, daysBack, timeZone), kind: 'lastweek' }));
+}
+
+// Point nearest to time t, if one is within maxMs.
+export function nearestPoint(points, t, maxMs) {
+  let best = null, bd = Infinity;
+  for (const p of points) {
+    const d = Math.abs(p.t - t);
+    if (d < bd) { bd = d; best = p; }
+  }
+  return bd <= maxMs ? best : null;
+}
+
 // Split a time series wherever consecutive points are further apart than maxGapMs,
 // so a skipped cron run shows as a gap instead of a misleading straight line.
 export function splitOnGaps(points, maxGapMs) {
@@ -86,10 +120,10 @@ export function splitOnGaps(points, maxGapMs) {
   return runs;
 }
 
-// --- Historical comparison (to be defined) ------------------------------------
+// --- Historical comparison rules (future) ---------------------------------------
 //
-// "Comparable times" is still an open question (same weekday? same month/season?
-// holidays?). Each rule is a predicate (candidateRecord, targetLocal) -> boolean,
+// The display currently compares with the same weekday last week (comparisonSeries).
+// Holiday-aware comparisons (e.g. last year's Christmas drive) are planned. Each rule is a predicate (candidateRecord, targetLocal) -> boolean,
 // where targetLocal = {date: 'YYYY-MM-DD', hour, weekday: 'Mon'}. Records already
 // carry local_date / local_hour / weekday in Pacific time, so rules stay one-liners.
 // Register new rules here; nothing in the UI uses them yet.

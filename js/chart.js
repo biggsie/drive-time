@@ -65,6 +65,7 @@ export function bestInView(observed, forecast, x0, x1, now) {
 
 export function renderChart(svg, opts) {
   const { width, height, observed, forecast, center, windowHours, now, timeZone, yMode = 'duration', selected } = opts;
+  const lastWeek = opts.lastWeek || [];
   const mode = Y_MODES[yMode];
   svg.replaceChildren();
   svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
@@ -78,8 +79,8 @@ export function renderChart(svg, opts) {
   // Y domain from what is visible (plus a little context either side).
   const pad = (windowHours / 6) * HOUR;
   const near = p => p.t >= x0 - pad && p.t <= +x1 + pad;
-  const visObs = observed.filter(near), visFc = forecast.filter(near);
-  const vals = [...visObs, ...visFc].map(mode.value);
+  const visObs = observed.filter(near), visFc = forecast.filter(near), visLw = lastWeek.filter(near);
+  const vals = [...visObs, ...visFc, ...visLw].map(mode.value);
   const staticRef = freeFlowSeconds(forecast, observed);
   if (staticRef && yMode === 'duration') vals.push(staticRef / 60);
 
@@ -118,9 +119,9 @@ export function renderChart(svg, opts) {
   if (!vals.length) {
     el('line', { x1: m.left, x2: m.left + iw, y1: m.top + ih, y2: m.top + ih, class: 'baseline' }, g);
     const msg = el('text', { x: m.left + iw / 2, y: m.top + ih / 2, class: 'empty', 'text-anchor': 'middle', 'font-size': fs * 1.3 }, g);
-    msg.textContent = observed.length || forecast.length ? 'No readings in this time range' : 'Collecting data';
+    msg.textContent = observed.length || forecast.length || lastWeek.length ? 'No readings in this time range' : 'Collecting data';
     const sub = el('text', { x: m.left + iw / 2, y: m.top + ih / 2 + fs * 1.8, class: 'empty-sub', 'text-anchor': 'middle', 'font-size': fs * 0.9 }, g);
-    sub.textContent = observed.length || forecast.length ? 'Swipe toward now, or tap Now' : 'Readings are collected hourly and will appear here';
+    sub.textContent = observed.length || forecast.length || lastWeek.length ? 'Swipe toward now, or tap Now' : 'Readings are collected hourly and will appear here';
     return { x0, x1, best: null, hit: [] };
   }
 
@@ -154,6 +155,14 @@ export function renderChart(svg, opts) {
   el('rect', { x: m.left - 16, y: m.top - fs, width: iw + 32, height: ih + fs * 2 }, clip);
   const plot = el('g', { 'clip-path': 'url(#plot-clip)' }, g);
   const path = pts => pts.map((p, i) => `${i ? 'L' : 'M'}${xs(p.t).toFixed(1)},${ys(mode.value(p)).toFixed(1)}`).join('');
+
+  // Same day last week, moved onto today's timeline: thin grey line, drawn underneath.
+  for (const run of splitOnGaps(lastWeek, 2.5 * HOUR)) {
+    if (run.length > 1) el('path', { d: path(run), class: 'lastweek' }, plot);
+  }
+  if (windowHours <= 12) {
+    for (const p of visLw) el('circle', { cx: xs(p.t), cy: ys(mode.value(p)), r: 3.5, class: 'lw-dot' }, plot);
+  }
 
   // Observed: solid, broken at gaps > 2.5h (missed cron runs).
   for (const run of splitOnGaps(observed, 2.5 * HOUR)) {
@@ -190,10 +199,15 @@ export function renderChart(svg, opts) {
     el('circle', { cx: x, cy: y, r: 8, class: 'sel-dot' }, g);
     const tx = x > m.left + iw * 0.7 ? x - 12 : x + 12;
     const lab = el('text', { x: tx, y: Math.max(m.top + fs, y - fs * 0.8), class: 'sel-label', 'text-anchor': x > m.left + iw * 0.7 ? 'end' : 'start', 'font-size': fs }, g);
-    const kind = selected.kind === 'forecast' ? 'forecast' : 'observed';
-    lab.textContent = `${time.format(selected.t)} · ${fmtDuration(selected.d)} (${kind})`;
+    if (selected.kind === 'lastweek') {
+      const day = new Intl.DateTimeFormat('en-US', { timeZone, weekday: 'short', month: 'short', day: 'numeric' });
+      lab.textContent = `${day.format(selected.orig)} ${time.format(selected.orig)} · ${fmtDuration(selected.d)}`;
+    } else {
+      const kind = selected.kind === 'forecast' ? 'forecast' : 'observed';
+      lab.textContent = `${time.format(selected.t)} · ${fmtDuration(selected.d)} (${kind})`;
+    }
   }
 
-  const hit = [...visObs, ...visFc].map(p => ({ p, x: xs(p.t), y: ys(mode.value(p)) }));
+  const hit = [...visObs, ...visFc, ...visLw].map(p => ({ p, x: xs(p.t), y: ys(mode.value(p)) }));
   return { x0, x1, best, hit, plotLeft: m.left, plotWidth: iw };
 }

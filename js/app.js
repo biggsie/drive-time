@@ -1,4 +1,4 @@
-import { loadConfig, loadLatest, loadHistory, monthsBetween, observedSeries, forecastSeries } from './data.js';
+import { loadConfig, loadLatest, loadHistory, monthsBetween, observedSeries, forecastSeries, comparisonSeries, nearestPoint } from './data.js';
 import { renderChart, fmtDuration, bestInView, freeFlowSeconds } from './chart.js';
 
 const HOUR = 3600e3;
@@ -36,7 +36,9 @@ async function refreshLatest() {
 async function refreshHistory() {
   const tz = state.config.display.timezone;
   const now = new Date();
-  const start = new Date(now - state.config.display.max_window_hours * HOUR);
+  // Reach back far enough for the same-day-last-week comparison too.
+  const back = state.config.display.max_window_hours + 24 * (state.config.display.compare_days_back || 0) + 24;
+  const start = new Date(now - back * HOUR);
   const months = monthsBetween(start, now, tz);
   try {
     state.history = await loadHistory(months, {
@@ -67,6 +69,13 @@ function render() {
 
   const observed = observedSeries(state.history, direction);
   const forecast = forecastSeries(latest, direction);
+  const daysBack = config.display.compare_days_back || 7;
+  const lastWeek = comparisonSeries(observed, daysBack, tz);
+  // The live line shows only the chart's look-back range; older readings feed the comparison.
+  const liveFrom = now - (config.display.max_window_hours + 12) * HOUR;
+  const observedLive = observed.filter(p => p.t >= liveFrom);
+  const weekday = new Intl.DateTimeFormat('en-US', { timeZone: tz, weekday: 'long' }).format(now);
+  const lwName = daysBack === 7 ? `Last ${weekday}` : `${daysBack} days ago`;
 
   // Hero: leave-now duration, and the best departure in the forecast horizon.
   const nowPoint = forecast.find(p => p.offset === 0);
@@ -98,6 +107,21 @@ function render() {
     $('#best-caption').textContent = '';
   }
 
+  // Same day last week, at the reading nearest this time of day.
+  $('#lw-label').textContent = lwName;
+  $('#lw-legend').textContent = lwName;
+  const lw = nearestPoint(lastWeek, now, 45 * 60e3);
+  if (lw) {
+    $('#lw-value').textContent = fmtDuration(lw.d);
+    $('#lw-value').classList.remove('empty-value');
+    $('#lw-caption').textContent = `Left at ${time.format(lw.orig)}` +
+      (nowPoint ? ` · now is ${signed(nowPoint.d - lw.d)}` : '');
+  } else {
+    $('#lw-value').textContent = '–';
+    $('#lw-value').classList.add('empty-value');
+    $('#lw-caption').textContent = `No reading from ${lwName} at this time yet`;
+  }
+
   // Status: last updated, stale warning, errors.
   const status = $('#status');
   const banner = $('#banner');
@@ -125,7 +149,7 @@ function render() {
   if (box.width < 50 || box.height < 50) return;
   const center = state.center ?? now;
   lastChart = renderChart(svg, {
-    width: box.width, height: box.height, observed, forecast, center, now,
+    width: box.width, height: box.height, observed: observedLive, forecast, lastWeek, center, now,
     windowHours: state.windowHours, timeZone: tz, yMode: config.display.y_mode, selected: state.selected,
   });
 

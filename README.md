@@ -14,7 +14,7 @@ It covers Mill Valley ↔ Truckee in both directions.
 | Path | What |
 |---|---|
 | `config.json` | Addresses, collection settings, display defaults, refresh intervals |
-| `data/latest.json` | Latest run: "now" reading + forecasts for +0/+1/+2h, both directions, plus any request errors |
+| `data/latest.json` | Latest run: "now" reading + forecasts for now/+1h/+3h, both directions, plus any request errors |
 | `data/history/YYYY-MM.json` | **Observed** records (departing now), one per direction per run, by Pacific calendar month |
 | `data/history/index.json` | List of available months |
 | `data/forecasts/YYYY-MM.json` | Forecast log, now off (`collection.log_forecasts: false`). History keeps only the current drive time, both directions |
@@ -45,6 +45,10 @@ Observed record fields: `timestamp_utc` (when the request was actually made), `l
 - "Now" is the vertical line at dead centre. Left of it: observed (solid line, dots
   per reading). Right of it: Google's forecast (dashed, hollow markers).
 - The dotted line is the latest no-traffic baseline (`staticDuration`).
+- The grey line is the same weekday last week (`display.compare_days_back`, default 7),
+  moved onto today's timeline at the same clock time. The third number at the top is last
+  week's reading nearest this time of day. It fills in once a week of hourly history exists.
+  Holiday comparisons (e.g. last year's Christmas drive) are planned, not built.
 - The ringed point is the **best departure in view**. Forecast points win because
   they're actionable. If only past data is in view, it's labelled "Lowest" instead.
 - Swipe to pan back up to 48h. Pinch or tap 6h/24h/48h to zoom. Tap a point to read it.
@@ -63,8 +67,8 @@ Observed record fields: `timestamp_utc` (when the request was actually made), `l
 
 Any traffic-aware request bills as **Compute Routes Pro**: 5,000 free per month, then
 $10 per 1,000 (Google pricing as of Nov 2026). Volume is 2 directions × 3 departure times
-(now, +1h, +2h) × 24 runs ≈ **4,380 requests/month**, inside the free tier. Adding `+3`
-back to `forecast_offsets_hours` makes it ≈5,840/month, about $8–9/month. `computeRouteMatrix` is billed per element at the same rate, so it
+(now, +1h, +3h) × 24 runs ≈ **4,380 requests/month**, inside the free tier. Adding `+2`
+to `forecast_offsets_hours` makes it ≈5,840/month, about $8–9/month. `computeRouteMatrix` is billed per element at the same rate, so it
 isn't cheaper.
 
 ## Scheduling

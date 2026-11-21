@@ -37,16 +37,22 @@
       <div id="best-value" class="stat-value">—</div>
       <div id="best-caption" class="stat-caption"></div>
     </div>
+    <div class="stat">
+      <div id="lw-label" class="stat-label">Last week</div>
+      <div id="lw-value" class="stat-value">—</div>
+      <div id="lw-caption" class="stat-caption"></div>
+    </div>
   </section>
 
   <main class="chart-wrap">
-    <svg id="chart" role="img" aria-label="Drive time by departure time. Solid line: observed. Dashed line: Google forecast."></svg>
+    <svg id="chart" role="img" aria-label="Drive time by departure time. Solid line: observed. Dashed line: Google forecast. Grey line: same day last week."></svg>
   </main>
 
   <footer class="bottom">
     <div class="legend" aria-hidden="true">
       <span class="key"><svg width="36" height="10"><line x1="0" y1="5" x2="36" y2="5" class="observed"/></svg>Observed</span>
       <span class="key"><svg width="36" height="10"><line x1="0" y1="5" x2="36" y2="5" class="forecast"/></svg>Google forecast</span>
+      <span class="key"><svg width="36" height="10"><line x1="0" y1="5" x2="36" y2="5" class="lastweek"/></svg><span id="lw-legend">Last week</span></span>
       <span class="key"><svg width="36" height="10"><line x1="0" y1="5" x2="36" y2="5" class="static-line"/></svg>No traffic</span>
     </div>
     <div class="controls">
