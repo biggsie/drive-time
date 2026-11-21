@@ -21,12 +21,11 @@
     "forecast_offsets_hours": [
       0,
       1,
-      2,
-      3
+      2
     ],
     "routing_preference": "TRAFFIC_AWARE_OPTIMAL",
     "traffic_model": "BEST_GUESS",
-    "log_forecasts": true
+    "log_forecasts": false
   },
   "display": {
     "timezone": "America/Los_Angeles",

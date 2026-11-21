@@ -5,7 +5,7 @@ It covers Mill Valley ↔ Truckee in both directions.
 
 - **Front end:** static HTML/CSS/JS (no framework, no build step) on GitHub Pages.
 - **Collector:** `scripts/collect.py` (Python standard library only), run hourly by
-  `.github/workflows/collect.yml`. It calls Google's Routes API and commits JSON to `data/`.
+  `.github/workflows/collect.yml` via `scripts/collect-loop.sh`. It calls Google's Routes API and commits JSON to `data/`.
 - **No server, no database, no sample data.** Every value comes from a real API call.
   Until readings exist, the display shows a "Collecting data" state.
 
@@ -14,10 +14,10 @@ It covers Mill Valley ↔ Truckee in both directions.
 | Path | What |
 |---|---|
 | `config.json` | Addresses, collection settings, display defaults, refresh intervals |
-| `data/latest.json` | Latest run: "now" reading + forecasts for +0/+1/+2/+3h, both directions, plus any request errors |
+| `data/latest.json` | Latest run: "now" reading + forecasts for +0/+1/+2h, both directions, plus any request errors |
 | `data/history/YYYY-MM.json` | **Observed** records (departing now), one per direction per run, by Pacific calendar month |
 | `data/history/index.json` | List of available months |
-| `data/forecasts/YYYY-MM.json` | Every forecast Google gave, kept separate from observations for later accuracy checks (`collection.log_forecasts`) |
+| `data/forecasts/YYYY-MM.json` | Forecast log, now off (`collection.log_forecasts: false`). History keeps only the current drive time, both directions |
 | `js/data.js` | Loading/shaping, plus `COMPARISON_RULES` / `typicalDuration()`: the hook for the historical comparison logic |
 | `js/chart.js` | SVG chart; `Y_MODES` is where the planned "variance from normal" mode goes |
 
@@ -62,20 +62,23 @@ Observed record fields: `timestamp_utc` (when the request was actually made), `l
 (the API then uses the request time). +1/+2/+3h send an explicit future `departureTime`.
 
 Any traffic-aware request bills as **Compute Routes Pro**: 5,000 free per month, then
-$10 per 1,000 (Google pricing as of Nov 2026). Volume is 2 directions × 4 departure times
-× 24 runs ≈ **5,840 requests/month**, which works out to **about $8–9/month** after the
-free tier. To stay inside the free tier, drop `+3` from `forecast_offsets_hours`
-(≈4,380/month, $0). `computeRouteMatrix` is billed per element at the same rate, so it
+$10 per 1,000 (Google pricing as of Nov 2026). Volume is 2 directions × 3 departure times
+(now, +1h, +2h) × 24 runs ≈ **4,380 requests/month**, inside the free tier. Adding `+3`
+back to `forecast_offsets_hours` makes it ≈5,840/month, about $8–9/month. `computeRouteMatrix` is billed per element at the same rate, so it
 isn't cheaper.
 
-## Scheduling caveats
+## Scheduling
 
-- Cron is `17 * * * *` (UTC). GitHub runs can be late or skipped; each record stores
-  the real request time, and the chart tolerates gaps.
-- In public repos, scheduled workflows are disabled after 60 days without repo activity.
-  The hourly data commits should count, and the workflow also re-enables itself via the
-  API each run. The 3h stale-data banner is the backstop: if it appears, check the
-  Actions tab.
+- GitHub's plain hourly cron fired only about every 8 hours for this repo. So each
+  workflow run now stays alive ~5.5 hours, collecting at :17 past every hour, then
+  starts the next run itself (`gh workflow run`). Actions minutes are free on a public repo.
+- The `17 * * * *` cron stays as a backstop that restarts the chain if it breaks.
+- A reading is skipped if the last one is under 50 minutes old, so overlapping or manual
+  runs never double up on API calls.
+- To stop collection: disable the workflow in the Actions tab (cancelling one run only
+  pauses it until the next cron fires).
+- Each record stores the real request time, and the chart tolerates gaps. The 3h
+  stale-data banner is the backstop: if it appears, check the Actions tab.
 
 ## Open questions
 
@@ -83,5 +86,4 @@ isn't cheaper.
 - Exact origin/destination addresses.
 - Public vs. private repo. (Pages on a private repo needs a paid plan. The 60-day rule
   applies only to public repos.)
-- Keep logging forecasts? (Currently on. It adds no API calls.)
 - Snow/chain controls (e.g. Caltrans) as a separate data source later?
