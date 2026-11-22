@@ -64,5 +64,7 @@
 {"timestamp_utc":"2026-11-22T01:17:01Z","local_date":"2026-11-21","local_hour":17,"weekday":"Sat","direction":"A","duration_seconds":11751,"static_duration_seconds":12030,"distance_meters":303918},
 {"timestamp_utc":"2026-11-22T01:17:01Z","local_date":"2026-11-21","local_hour":17,"weekday":"Sat","direction":"B","duration_seconds":10999,"static_duration_seconds":11057,"distance_meters":302449},
 {"timestamp_utc":"2026-11-22T02:17:00Z","local_date":"2026-11-21","local_hour":18,"weekday":"Sat","direction":"A","duration_seconds":11472,"static_duration_seconds":11693,"distance_meters":303918},
-{"timestamp_utc":"2026-11-22T02:17:01Z","local_date":"2026-11-21","local_hour":18,"weekday":"Sat","direction":"B","duration_seconds":10878,"static_duration_seconds":10962,"distance_meters":302449}
+{"timestamp_utc":"2026-11-22T02:17:01Z","local_date":"2026-11-21","local_hour":18,"weekday":"Sat","direction":"B","duration_seconds":10878,"static_duration_seconds":10962,"distance_meters":302449},
+{"timestamp_utc":"2026-11-22T03:17:00Z","local_date":"2026-11-21","local_hour":19,"weekday":"Sat","direction":"A","duration_seconds":11272,"static_duration_seconds":11420,"distance_meters":304730},
+{"timestamp_utc":"2026-11-22T03:17:01Z","local_date":"2026-11-21","local_hour":19,"weekday":"Sat","direction":"B","duration_seconds":10573,"static_duration_seconds":10729,"distance_meters":302561}
 ]
