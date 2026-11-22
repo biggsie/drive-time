@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at_utc": "2026-11-22T15:17:01Z",
+  "generated_at_utc": "2026-11-22T16:17:00Z",
   "routing_preference": "TRAFFIC_AWARE_OPTIMAL",
   "traffic_model": "BEST_GUESS",
   "routes": {
@@ -11,37 +11,37 @@
       "forecast": [
         {
           "offset_hours": 0,
-          "requested_at_utc": "2026-11-22T15:17:01Z",
-          "departure_time_utc": "2026-11-22T15:17:01Z",
-          "duration_seconds": 10346,
-          "static_duration_seconds": 10631,
+          "requested_at_utc": "2026-11-22T16:17:00Z",
+          "departure_time_utc": "2026-11-22T16:17:00Z",
+          "duration_seconds": 10422,
+          "static_duration_seconds": 10759,
           "distance_meters": 304730
         },
         {
           "offset_hours": 1,
-          "requested_at_utc": "2026-11-22T15:17:01Z",
-          "departure_time_utc": "2026-11-22T16:17:01Z",
-          "duration_seconds": 10385,
-          "static_duration_seconds": 10972,
+          "requested_at_utc": "2026-11-22T16:17:00Z",
+          "departure_time_utc": "2026-11-22T17:17:00Z",
+          "duration_seconds": 10517,
+          "static_duration_seconds": 11061,
           "distance_meters": 304730
         },
         {
           "offset_hours": 3,
-          "requested_at_utc": "2026-11-22T15:17:01Z",
-          "departure_time_utc": "2026-11-22T18:17:01Z",
-          "duration_seconds": 10595,
+          "requested_at_utc": "2026-11-22T16:17:01Z",
+          "departure_time_utc": "2026-11-22T19:17:01Z",
+          "duration_seconds": 10881,
           "static_duration_seconds": 11179,
           "distance_meters": 304730
         }
       ],
       "now": {
-        "timestamp_utc": "2026-11-22T15:17:01Z",
+        "timestamp_utc": "2026-11-22T16:17:00Z",
         "local_date": "2026-11-22",
-        "local_hour": 7,
+        "local_hour": 8,
         "weekday": "Sun",
         "direction": "A",
-        "duration_seconds": 10346,
-        "static_duration_seconds": 10631,
+        "duration_seconds": 10422,
+        "static_duration_seconds": 10759,
         "distance_meters": 304730
       }
     },
@@ -52,38 +52,38 @@
       "forecast": [
         {
           "offset_hours": 0,
-          "requested_at_utc": "2026-11-22T15:17:01Z",
-          "departure_time_utc": "2026-11-22T15:17:01Z",
-          "duration_seconds": 10721,
-          "static_duration_seconds": 10866,
-          "distance_meters": 302060
+          "requested_at_utc": "2026-11-22T16:17:01Z",
+          "departure_time_utc": "2026-11-22T16:17:01Z",
+          "duration_seconds": 10936,
+          "static_duration_seconds": 10952,
+          "distance_meters": 302561
         },
         {
           "offset_hours": 1,
-          "requested_at_utc": "2026-11-22T15:17:01Z",
-          "departure_time_utc": "2026-11-22T16:17:01Z",
-          "duration_seconds": 11044,
-          "static_duration_seconds": 11027,
+          "requested_at_utc": "2026-11-22T16:17:01Z",
+          "departure_time_utc": "2026-11-22T17:17:01Z",
+          "duration_seconds": 11987,
+          "static_duration_seconds": 11082,
           "distance_meters": 302561
         },
         {
           "offset_hours": 3,
-          "requested_at_utc": "2026-11-22T15:17:01Z",
-          "departure_time_utc": "2026-11-22T18:17:01Z",
-          "duration_seconds": 11928,
+          "requested_at_utc": "2026-11-22T16:17:01Z",
+          "departure_time_utc": "2026-11-22T19:17:01Z",
+          "duration_seconds": 12013,
           "static_duration_seconds": 10858,
           "distance_meters": 302561
         }
       ],
       "now": {
-        "timestamp_utc": "2026-11-22T15:17:01Z",
+        "timestamp_utc": "2026-11-22T16:17:01Z",
         "local_date": "2026-11-22",
-        "local_hour": 7,
+        "local_hour": 8,
         "weekday": "Sun",
         "direction": "B",
-        "duration_seconds": 10721,
-        "static_duration_seconds": 10866,
-        "distance_meters": 302060
+        "duration_seconds": 10936,
+        "static_duration_seconds": 10952,
+        "distance_meters": 302561
       }
     }
   },
