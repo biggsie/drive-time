@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at_utc": "2026-11-23T05:17:01Z",
+  "generated_at_utc": "2026-11-23T06:17:00Z",
   "routing_preference": "TRAFFIC_AWARE_OPTIMAL",
   "traffic_model": "BEST_GUESS",
   "routes": {
@@ -11,37 +11,37 @@
       "forecast": [
         {
           "offset_hours": 0,
-          "requested_at_utc": "2026-11-23T05:17:01Z",
-          "departure_time_utc": "2026-11-23T05:17:01Z",
-          "duration_seconds": 10873,
-          "static_duration_seconds": 10868,
+          "requested_at_utc": "2026-11-23T06:17:00Z",
+          "departure_time_utc": "2026-11-23T06:17:00Z",
+          "duration_seconds": 10945,
+          "static_duration_seconds": 10863,
           "distance_meters": 304730
         },
         {
           "offset_hours": 1,
-          "requested_at_utc": "2026-11-23T05:17:01Z",
-          "departure_time_utc": "2026-11-23T06:17:01Z",
-          "duration_seconds": 10996,
-          "static_duration_seconds": 10987,
+          "requested_at_utc": "2026-11-23T06:17:00Z",
+          "departure_time_utc": "2026-11-23T07:17:00Z",
+          "duration_seconds": 11103,
+          "static_duration_seconds": 11007,
           "distance_meters": 304730
         },
         {
           "offset_hours": 3,
-          "requested_at_utc": "2026-11-23T05:17:01Z",
-          "departure_time_utc": "2026-11-23T08:17:01Z",
-          "duration_seconds": 11072,
+          "requested_at_utc": "2026-11-23T06:17:00Z",
+          "departure_time_utc": "2026-11-23T09:17:00Z",
+          "duration_seconds": 11204,
           "static_duration_seconds": 11179,
           "distance_meters": 304730
         }
       ],
       "now": {
-        "timestamp_utc": "2026-11-23T05:17:01Z",
+        "timestamp_utc": "2026-11-23T06:17:00Z",
         "local_date": "2026-11-22",
-        "local_hour": 21,
+        "local_hour": 22,
         "weekday": "Sun",
         "direction": "A",
-        "duration_seconds": 10873,
-        "static_duration_seconds": 10868,
+        "duration_seconds": 10945,
+        "static_duration_seconds": 10863,
         "distance_meters": 304730
       }
     },
@@ -52,37 +52,37 @@
       "forecast": [
         {
           "offset_hours": 0,
-          "requested_at_utc": "2026-11-23T05:17:01Z",
-          "departure_time_utc": "2026-11-23T05:17:01Z",
-          "duration_seconds": 10787,
-          "static_duration_seconds": 10960,
+          "requested_at_utc": "2026-11-23T06:17:01Z",
+          "departure_time_utc": "2026-11-23T06:17:01Z",
+          "duration_seconds": 11080,
+          "static_duration_seconds": 11194,
           "distance_meters": 302060
         },
         {
           "offset_hours": 1,
-          "requested_at_utc": "2026-11-23T05:17:01Z",
-          "departure_time_utc": "2026-11-23T06:17:01Z",
-          "duration_seconds": 10993,
-          "static_duration_seconds": 11131,
+          "requested_at_utc": "2026-11-23T06:17:01Z",
+          "departure_time_utc": "2026-11-23T07:17:01Z",
+          "duration_seconds": 11352,
+          "static_duration_seconds": 11232,
           "distance_meters": 302060
         },
         {
           "offset_hours": 3,
-          "requested_at_utc": "2026-11-23T05:17:02Z",
-          "departure_time_utc": "2026-11-23T08:17:02Z",
-          "duration_seconds": 11317,
+          "requested_at_utc": "2026-11-23T06:17:01Z",
+          "departure_time_utc": "2026-11-23T09:17:01Z",
+          "duration_seconds": 11057,
           "static_duration_seconds": 10858,
           "distance_meters": 302561
         }
       ],
       "now": {
-        "timestamp_utc": "2026-11-23T05:17:01Z",
+        "timestamp_utc": "2026-11-23T06:17:01Z",
         "local_date": "2026-11-22",
-        "local_hour": 21,
+        "local_hour": 22,
         "weekday": "Sun",
         "direction": "B",
-        "duration_seconds": 10787,
-        "static_duration_seconds": 10960,
+        "duration_seconds": 11080,
+        "static_duration_seconds": 11194,
         "distance_meters": 302060
       }
     }
