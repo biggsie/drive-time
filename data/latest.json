@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at_utc": "2026-11-23T08:17:00Z",
+  "generated_at_utc": "2026-11-23T09:17:01Z",
   "routing_preference": "TRAFFIC_AWARE_OPTIMAL",
   "traffic_model": "BEST_GUESS",
   "routes": {
@@ -11,37 +11,37 @@
       "forecast": [
         {
           "offset_hours": 0,
-          "requested_at_utc": "2026-11-23T08:17:00Z",
-          "departure_time_utc": "2026-11-23T08:17:00Z",
-          "duration_seconds": 11003,
-          "static_duration_seconds": 10984,
-          "distance_meters": 304730
-        },
-        {
-          "offset_hours": 1,
-          "requested_at_utc": "2026-11-23T08:17:00Z",
-          "departure_time_utc": "2026-11-23T09:17:00Z",
-          "duration_seconds": 11193,
+          "requested_at_utc": "2026-11-23T09:17:01Z",
+          "departure_time_utc": "2026-11-23T09:17:01Z",
+          "duration_seconds": 11141,
           "static_duration_seconds": 11089,
           "distance_meters": 304730
         },
         {
+          "offset_hours": 1,
+          "requested_at_utc": "2026-11-23T09:17:01Z",
+          "departure_time_utc": "2026-11-23T10:17:01Z",
+          "duration_seconds": 11165,
+          "static_duration_seconds": 11120,
+          "distance_meters": 304730
+        },
+        {
           "offset_hours": 3,
-          "requested_at_utc": "2026-11-23T08:17:00Z",
-          "departure_time_utc": "2026-11-23T11:17:00Z",
-          "duration_seconds": 11021,
+          "requested_at_utc": "2026-11-23T09:17:01Z",
+          "departure_time_utc": "2026-11-23T12:17:01Z",
+          "duration_seconds": 10999,
           "static_duration_seconds": 11179,
           "distance_meters": 304730
         }
       ],
       "now": {
-        "timestamp_utc": "2026-11-23T08:17:00Z",
+        "timestamp_utc": "2026-11-23T09:17:01Z",
         "local_date": "2026-11-23",
-        "local_hour": 0,
+        "local_hour": 1,
         "weekday": "Mon",
         "direction": "A",
-        "duration_seconds": 11003,
-        "static_duration_seconds": 10984,
+        "duration_seconds": 11141,
+        "static_duration_seconds": 11089,
         "distance_meters": 304730
       }
     },
@@ -52,37 +52,37 @@
       "forecast": [
         {
           "offset_hours": 0,
-          "requested_at_utc": "2026-11-23T08:17:00Z",
-          "departure_time_utc": "2026-11-23T08:17:00Z",
-          "duration_seconds": 11419,
-          "static_duration_seconds": 11510,
+          "requested_at_utc": "2026-11-23T09:17:01Z",
+          "departure_time_utc": "2026-11-23T09:17:01Z",
+          "duration_seconds": 11236,
+          "static_duration_seconds": 11415,
           "distance_meters": 302561
         },
         {
           "offset_hours": 1,
-          "requested_at_utc": "2026-11-23T08:17:01Z",
-          "departure_time_utc": "2026-11-23T09:17:01Z",
-          "duration_seconds": 11226,
-          "static_duration_seconds": 11323,
+          "requested_at_utc": "2026-11-23T09:17:02Z",
+          "departure_time_utc": "2026-11-23T10:17:02Z",
+          "duration_seconds": 11004,
+          "static_duration_seconds": 11200,
           "distance_meters": 302561
         },
         {
           "offset_hours": 3,
-          "requested_at_utc": "2026-11-23T08:17:01Z",
-          "departure_time_utc": "2026-11-23T11:17:01Z",
-          "duration_seconds": 11576,
+          "requested_at_utc": "2026-11-23T09:17:02Z",
+          "departure_time_utc": "2026-11-23T12:17:02Z",
+          "duration_seconds": 12850,
           "static_duration_seconds": 10858,
           "distance_meters": 302561
         }
       ],
       "now": {
-        "timestamp_utc": "2026-11-23T08:17:00Z",
+        "timestamp_utc": "2026-11-23T09:17:01Z",
         "local_date": "2026-11-23",
-        "local_hour": 0,
+        "local_hour": 1,
         "weekday": "Mon",
         "direction": "B",
-        "duration_seconds": 11419,
-        "static_duration_seconds": 11510,
+        "duration_seconds": 11236,
+        "static_duration_seconds": 11415,
         "distance_meters": 302561
       }
     }
