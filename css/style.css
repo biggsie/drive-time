@@ -102,7 +102,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .forecast { stroke: var(--series); stroke-width: 3; fill: none; stroke-dasharray: 8 7; stroke-linecap: round; }
 .obs-dot { fill: var(--series); stroke: var(--surface); stroke-width: 2; }
 .fc-dot { fill: var(--surface); stroke: var(--series); stroke-width: 2.5; }
-.lastweek { stroke: var(--ink-3); stroke-width: 2.5; fill: none; stroke-linejoin: round; stroke-linecap: round; opacity: .75; }
+.lastweek { stroke: var(--ink-3); stroke-width: 4.5; fill: none; stroke-linejoin: round; stroke-linecap: round; opacity: .75; }
 .lw-dot { fill: var(--ink-3); stroke: var(--surface); stroke-width: 1.5; }
 .static-line { stroke: var(--ink-3); stroke-width: 1.5; stroke-dasharray: 1 5; stroke-linecap: round; }
 .static-label { fill: var(--ink-3); paint-order: stroke; stroke: var(--surface); stroke-width: 6px; stroke-linejoin: round; }

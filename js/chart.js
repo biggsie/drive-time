@@ -154,9 +154,29 @@ export function renderChart(svg, opts) {
   // forecast when "now" is centred) aren't cut in half.
   el('rect', { x: m.left - 16, y: m.top - fs, width: iw + 32, height: ih + fs * 2 }, clip);
   const plot = el('g', { 'clip-path': 'url(#plot-clip)' }, g);
-  const path = pts => pts.map((p, i) => `${i ? 'L' : 'M'}${xs(p.t).toFixed(1)},${ys(mode.value(p)).toFixed(1)}`).join('');
+  // Smooth curve through the points (monotone cubic, so it never overshoots a reading).
+  const path = pts => {
+    const P = pts.map(p => [xs(p.t), ys(mode.value(p))]);
+    const n = P.length, f = v => v.toFixed(1);
+    if (n < 3) return P.map((q, i) => `${i ? 'L' : 'M'}${f(q[0])},${f(q[1])}`).join('');
+    const d = [], m = new Array(n);
+    for (let i = 0; i < n - 1; i++) d.push((P[i + 1][1] - P[i][1]) / ((P[i + 1][0] - P[i][0]) || 1e-9));
+    m[0] = d[0]; m[n - 1] = d[n - 2];
+    for (let i = 1; i < n - 1; i++) m[i] = d[i - 1] * d[i] <= 0 ? 0 : (d[i - 1] + d[i]) / 2;
+    for (let i = 0; i < n - 1; i++) {
+      if (d[i] === 0) { m[i] = 0; m[i + 1] = 0; continue; }
+      const a = m[i] / d[i], b = m[i + 1] / d[i], h = a * a + b * b;
+      if (h > 9) { const t = 3 / Math.sqrt(h); m[i] = t * a * d[i]; m[i + 1] = t * b * d[i]; }
+    }
+    let s = `M${f(P[0][0])},${f(P[0][1])}`;
+    for (let i = 0; i < n - 1; i++) {
+      const dx = (P[i + 1][0] - P[i][0]) / 3;
+      s += `C${f(P[i][0] + dx)},${f(P[i][1] + m[i] * dx)} ${f(P[i + 1][0] - dx)},${f(P[i + 1][1] - m[i + 1] * dx)} ${f(P[i + 1][0])},${f(P[i + 1][1])}`;
+    }
+    return s;
+  };
 
-  // Same day last week, moved onto today's timeline: thin grey line, drawn underneath.
+  // Same day last week, moved onto today's timeline: grey line, drawn underneath.
   for (const run of splitOnGaps(lastWeek, 2.5 * HOUR)) {
     if (run.length > 1) el('path', { d: path(run), class: 'lastweek' }, plot);
   }
